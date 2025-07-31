@@ -35,10 +35,23 @@ nav {
     padding: calc(var(--spacing-unit) * 2) 0;
     background-color: var(--surface-color);
     margin: -1rem -1rem 0;
-    padding: 2rem 2rem;
+    padding: 1.5rem 2rem;
 }
 
 .logo {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.logo-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    object-fit: cover;
+}
+
+.logo span {
     font-size: 1.5rem;
     font-weight: 700;
     color: var(--primary-color);
@@ -65,6 +78,38 @@ nav {
     background: linear-gradient(135deg, var(--surface-color), var(--background-color));
     border-radius: 20px;
     margin: calc(var(--spacing-unit) * 4) 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-logo {
+    margin-bottom: 2rem;
+}
+
+.hero-logo-img {
+    width: 120px;
+    height: 120px;
+    border-radius: 30px;
+    object-fit: cover;
+    box-shadow: 0 10px 30px rgba(9, 132, 227, 0.3);
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 h1 {
@@ -200,6 +245,11 @@ footer {
 
     .nav-links a {
         margin-left: var(--spacing-unit);
+    }
+
+    .hero-logo-img {
+        width: 100px;
+        height: 100px;
     }
 }
 
