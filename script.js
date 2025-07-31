@@ -1,55 +1,67 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Smooth scroll for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-            document.querySelector(this.getAttribute('href')).scrollIntoView({
-                behavior: 'smooth'
-            });
-        });
-    });
-
-    // Parallax scroll effect
-    const parallaxElements = document.querySelectorAll('.parallax-section');
-    const floatingLogo = document.querySelector('.floating-logo');
+    // Enhanced Parallax Effect
     let lastScrollY = window.scrollY;
     let ticking = false;
 
     function updateParallax() {
-        parallaxElements.forEach(section => {
-            const speed = 0.5;
-            const rect = section.getBoundingClientRect();
-            const visible = rect.top < window.innerHeight && rect.bottom > 0;
-            
-            if (visible) {
-                const yOffset = (window.scrollY - rect.top) * speed;
-                section.style.transform = `translate3d(0, ${yOffset}px, 0)`;
-            }
-        });
+        const scrollSections = document.querySelectorAll('.scroll-section');
+        const parallaxBgs = document.querySelectorAll('.parallax-bg');
+        const viewportHeight = window.innerHeight;
 
-        // Update floating logo rotation based on scroll
-        if (floatingLogo) {
-            const rotation = window.scrollY * 0.1;
-            floatingLogo.style.transform = `
-                rotate3d(1, 1, 1, ${rotation}deg)
-                translateY(${Math.sin(window.scrollY * 0.01) * 20}px)
-            `;
-        }
-
-        // Reveal sections on scroll
-        const revealSections = document.querySelectorAll('.section-content');
-        revealSections.forEach(section => {
+        // Update scroll sections
+        scrollSections.forEach(section => {
             const rect = section.getBoundingClientRect();
-            const visible = rect.top < window.innerHeight * 0.8;
+            const visible = rect.top < viewportHeight * 0.8;
             
             if (visible) {
                 section.classList.add('visible');
             }
         });
 
+        // Update parallax backgrounds
+        parallaxBgs.forEach(bg => {
+            const section = bg.parentElement;
+            const rect = section.getBoundingClientRect();
+            const scrolled = window.scrollY;
+            
+            if (rect.top <= viewportHeight && rect.bottom >= 0) {
+                const yPos = (rect.top - viewportHeight) * 0.5;
+                bg.style.transform = `translate3d(0, ${yPos}px, -10px) scale(2)`;
+            }
+        });
+
+        // Update story image parallax
+        const storyImage = document.querySelector('.story-image-placeholder');
+        if (storyImage) {
+            const rect = storyImage.getBoundingClientRect();
+            const scrolled = window.scrollY;
+            const speed = 0.15;
+            
+            if (rect.top <= viewportHeight && rect.bottom >= 0) {
+                const yPos = (rect.top - viewportHeight) * speed;
+                const rotation = scrolled * 0.02;
+                storyImage.style.transform = `translate3d(0, ${yPos}px, 50px) rotate3d(1, 1, 0, ${rotation}deg)`;
+            }
+        }
+
         ticking = false;
     }
 
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        });
+    });
+
+    // Handle scroll events
     window.addEventListener('scroll', () => {
         lastScrollY = window.scrollY;
         if (!ticking) {
@@ -61,24 +73,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // Initial update
-    updateParallax();
-
-    // Add scroll indicator
-    const hero = document.querySelector('.hero');
-    if (hero) {
-        const scrollIndicator = document.createElement('div');
-        scrollIndicator.className = 'scroll-indicator';
-        scrollIndicator.innerHTML = `
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M12 5v14M6 11l6 6 6-6"/>
-            </svg>
-        `;
-        hero.appendChild(scrollIndicator);
-    }
-
     // Handle navigation opacity
-    const nav = document.querySelector('nav');
+    const nav = document.querySelector('.sticky-header');
     let lastScroll = 0;
 
     window.addEventListener('scroll', () => {
@@ -90,4 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         lastScroll = currentScroll;
     });
+
+    // Initial update
+    updateParallax();
 });
