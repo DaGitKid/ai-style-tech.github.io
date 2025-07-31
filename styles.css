@@ -1,4 +1,4 @@
-/* ... keeping all existing CSS ... */
+/* Keep all existing CSS and add these new styles at the bottom */
 
 /* Story Section Styles */
 .story .section-content {
@@ -118,5 +118,3 @@
         gap: 1rem;
     }
 }
-
-/* ... rest of existing CSS ... */

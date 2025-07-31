@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Reveal sections on scroll
-        const revealSections = document.querySelectorAll('.section-content');
+        const revealSections = document.querySelectorAll('.section-content, .story-text');
         revealSections.forEach(section => {
             const rect = section.getBoundingClientRect();
             const visible = rect.top < window.innerHeight * 0.8;
